@@ -66,7 +66,7 @@ volumes:
 
 ## SQL
 
-All SQL queries will contain some combination of these clauses
+All SQL queries will contain some combination of these clauses[^1]
 
 ```
 SELECT
@@ -76,3 +76,14 @@ GROUP BY
 HAVING
 ORDER BY
 ```
+
+But the actual order of executions is
+
+1. Gathers all the data with `FROM`.
+1. Filters rows of data with `WHERE`.
+1. Groups rows together with the `GROUP BY`.
+1. Filters grouped rows with the `HAVING`.
+1. Specifies columns to display with the `SELECT`.
+1. Rearranes the results with the `ORDER BY`.
+
+[^1]: SQL Pocket Guide, Alice Zhao, O'Really Media Inc.
