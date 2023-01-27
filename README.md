@@ -64,7 +64,13 @@ volumes:
 
 > Note the indentation of the `volumes` is the `services` not `db.`
 
+### Importing CSV file
+
+The data is coming from a CSV file, that will be imported into the data base
+
 ## SQL
+
+_SQL is much like chess - a few hours to learn, a lifetime to master._
 
 All SQL queries will contain some combination of these clauses[^1]
 
