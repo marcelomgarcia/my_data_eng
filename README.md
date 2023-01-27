@@ -1,13 +1,13 @@
 # Learning Data Engineering
 
-## SQL
+## Docker
 
-Learning to use SQL language with Postgres containers.
+Learning to use SQL language with [Postgres data base](https://hub.docker.com/_/postgres/).
 
 Starting the containers
 
 ```
-mgarcia@arda:~/Work/postgres$ docker compose -f stack.yml up
+mgarcia@arda:~/Work/postgres$ docker compose -f postgres.yml up
 ```
 
 Checking if the containers are running
@@ -33,4 +33,46 @@ postgres=# quit
 root@bdaff78278ee:/# exit
 exit
 mgarcia@arda:~$
+```
+
+> The compose file also include an `adminer` container for convenience, but make sure the _System_ is _PostgreSQL_. The data base is called `postgres`.
+
+Next we create a _volume_ to have a persistent storage
+
+```
+mgarcia@arda:~/Work/postgres$ docker volume create postgres_data
+postgres_data
+mgarcia@arda:~/Work/postgres$ docker volume ls
+DRIVER    VOLUME NAME
+local     postgres_data
+mgarcia@arda:~/Work/postgres$
+```
+
+Adding the volume to the compose file
+
+```
+services:
+  db:
+    (...)
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+volumes:
+  postgres_data:
+    external: true
+```
+
+> Note the indentation of the `volumes` is the `services` not `db.`
+
+## SQL
+
+All SQL queries will contain some combination of these clauses
+
+```
+SELECT
+FROM
+WHERE
+GROUP BY
+HAVING
+ORDER BY
 ```
