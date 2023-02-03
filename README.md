@@ -145,7 +145,30 @@ exit
 
 ### Importing CSV file
 
-The data is coming from a CSV file, that will be imported into the data base
+The data is coming from a CSV file, that will be imported into the data base. Run the container with the data directory bind mounted
+
+```
+docker run \
+--rm \
+--env POSTGRES_PASSWORD=example \
+--name sf_fire_calls \
+--volume postgres_data:/var/lib/postgresql/data \
+--mount type=bind,source=${PWD}/data,target=/my_data \
+postgres
+```
+
+Double checking that the `my_data` directory is available in the container
+
+```
+mgarcia@mordor:~/Work/my_data_eng$ docker exec -it sf_fire_calls bash
+root@20e160afed85:~# ls -l /my_data
+total 43492
+-rw-r--r-- 1 root nogroup 44530123 Feb  3 18:09 sf-fire-calls.csv
+-rw-rw-r-- 1 root root         567 Feb  3 19:38 sf-fire-calls_header.txt
+root@20e160afed85:~# exit
+exit
+mgarcia@mordor:~/Work/my_data_eng$
+```
 
 ## SQL
 
