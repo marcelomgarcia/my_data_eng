@@ -144,8 +144,6 @@ postgres(# code char(5) CONSTRAINT firstkey PRIMARY KEY,
 postgres(# title       varchar(40) NOT NULL
 postgres(# );
 CREATE TABLE
-postgres=# INSERT INTO films VALUES ('Pulp fiction');
-ERROR:  value too long for type character(5)
 postgres=# INSERT INTO films VALUES ('001', 'Pulp fiction');
 INSERT 0 1
 postgres=# select * from films;
@@ -157,6 +155,28 @@ postgres=# select * from films;
 postgres=# exit
 root@260acd52503f:/# exit
 exit
+```
+
+### Login Roles
+
+> In Postgres world, _users_ is called a _login roles_, and a _groups_ are _group roles_. But for convinience I will still use the world _user_.
+
+Creating a user for daily usage (although with admin privileges)
+
+```sql
+postgres=# CREATE ROLE marcelo LOGIN PASSWORD 'hello123w' VALID UNTIL 'infinity' SUPERUSER;
+CREATE ROLE
+postgres=#
+```
+
+Logging into Postgres with new user
+
+```
+# psql -h localhost -U marcelo postgres
+psql (15.2 (Debian 15.2-1.pgdg110+1))
+Type "help" for help.
+
+postgres=#
 ```
 
 ### Importing CSV file
