@@ -4,7 +4,16 @@
 
 Learning to use SQL language with [Postgres data base](https://hub.docker.com/_/postgres/).
 
-Starting the containers
+Before starting the container, check if the volume was already created (if not, see below how to create it)
+
+```
+PS C:\Users\garcm0b> docker volume ls
+DRIVER    VOLUME NAME
+local     postgres_data
+PS C:\Users\garcm0b>
+```
+
+Now we can start the containers
 
 ```
 mgarcia@arda:~/Work/postgres$ docker compose -f postgres.yml up
@@ -64,6 +73,10 @@ volumes:
 
 > Note the indentation of the `volumes` is the `services` not `db.`
 
+## PostgreSQL
+
+Once the container is running, we can access it and start working on the database
+
 ```
 mgarcia@arda:~/Work/my_data_eng$
 mgarcia@arda:~/Work/my_data_eng$
@@ -77,7 +90,6 @@ mgarcia@arda:~/Work/my_data_eng$ docker run \
 mgarcia@arda:~/Work/my_data_eng$ docker ps
 CONTAINER ID   IMAGE      COMMAND                  CREATED         STATUS         PORTS      NAMES
 260acd52503f   postgres   "docker-entrypoint.s…"   3 seconds ago   Up 2 seconds   5432/tcp   sf_fire_calls
-mgarcia@arda:~/Work/my_data_eng$ docker exec sf_fire_calls bash
 mgarcia@arda:~/Work/my_data_eng$ docker exec -it sf_fire_calls bash
 root@260acd52503f:/# psql -h localhost -p postgres
 psql: error: invalid integer value "postgres" for connection option "port"
@@ -121,7 +133,11 @@ postgres-# ORDER BY context, name;
  maintenance_work_mem | user       | kB   | 65536   | 65536    | 65536
  work_mem             | user       | kB   | 4096    | 4096     | 4096
 (5 rows)
+```
 
+Creating a simple database to check if everything is working
+
+```
 postgres=#
 postgres=# CREATE TABLE films(
 postgres(# code char(5) CONSTRAINT firstkey PRIMARY KEY,
