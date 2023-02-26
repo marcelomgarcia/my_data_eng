@@ -73,6 +73,18 @@ volumes:
 
 > Note the indentation of the `volumes` is the `services` not `db.`
 
+### Troubleshooting
+
+The container Adminer is not starting:
+
+```
+my_data_eng-adminer-1  | [Sat Feb 25 12:07:14 2023] PHP Warning:  Unknown: php_network_getaddresses: getaddrinfo failed: Address family for hostname not supported in Unknown on line 0
+my_data_eng-adminer-1  | [Sat Feb 25 12:07:14 2023] Failed to listen on :::8080 (reason: php_network_getaddresses: getaddrinfo failed: Address family for hostname not supported)
+my_data_eng-adminer-1 exited with code 1
+```
+
+This can be caused by [[IPv6 configuration missing](https://github.com/TimWolla/docker-adminer/issues/30) on the server.
+
 ## PostgreSQL
 
 Once the container is running, we can access it and start working on the database
