@@ -83,7 +83,7 @@ my_data_eng-adminer-1  | [Sat Feb 25 12:07:14 2023] Failed to listen on :::8080 
 my_data_eng-adminer-1 exited with code 1
 ```
 
-This can be caused by [[IPv6 configuration missing](https://github.com/TimWolla/docker-adminer/issues/30) on the server.
+This can be caused by [IPv6 configuration missing](https://github.com/TimWolla/docker-adminer/issues/30) on the server.
 
 ## PostgreSQL
 
@@ -187,6 +187,24 @@ Logging into Postgres with new user
 # psql -h localhost -U marcelo postgres
 psql (15.2 (Debian 15.2-1.pgdg110+1))
 Type "help" for help.
+
+postgres=#
+```
+
+### Group Roles
+
+Creating a group for DB admins
+
+```
+postgres=# CREATE ROLE db_admins INHERIT;
+CREATE ROLE
+postgres=#
+postgres=# select * from pg_group;
+          groname          | grosysid | grolist
+---------------------------+----------+---------
+ (...)
+ db_admins                 |    16389 | {}
+(13 rows)
 
 postgres=#
 ```
