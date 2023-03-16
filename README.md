@@ -191,23 +191,74 @@ Type "help" for help.
 postgres=#
 ```
 
+Now we create a normal user (`NOSUPERUSER`) that will be added to the db admin group
+
+```sql
+postgres=# CREATE ROLE mgarcia LOGIN PASSWORD 'hello123w' VALID UNTIL 'infinity';
+CREATE ROLE
+postgres=#
+```
+
+
 ### Group Roles
 
-Creating a group for DB admins
+Creating a group for DB admins with superuser privileges
 
-```
+```sql
 postgres=# CREATE ROLE db_admins INHERIT;
 CREATE ROLE
+postgres=#
+postgres=# ALTER ROLE db_admins SUPERUSER;
+ALTER ROLE
 postgres=#
 postgres=# select * from pg_group;
           groname          | grosysid | grolist
 ---------------------------+----------+---------
  (...)
- db_admins                 |    16389 | {}
+  db_admins                 |    16389 | {16390}
 (13 rows)
 
 postgres=#
 ```
+
+Now we add the user `mgarcia` to the group
+
+```sql
+postgres=# GRANT db_admins TO mgarcia;
+GRANT ROLE
+postgres=#
+```
+
+Although part of the group, the user `mgarcia` only get admin rights after issuing the following command to elevate the privileges
+
+```sql
+SET ROLE db_admins
+```
+
+Like this
+
+```sql
+root@931e10f1e306:/# psql -h localhost -U mgarcia postgres
+psql (15.2 (Debian 15.2-1.pgdg110+1))
+Type "help" for help.
+
+postgres=> SELECT session_user, current_user;
+ session_user | current_user
+--------------+--------------
+ mgarcia      | mgarcia
+(1 row)
+
+postgres=> SET ROLE db_admins;
+SET
+postgres=# SELECT session_user, current_user;
+ session_user | current_user
+--------------+--------------
+ mgarcia      | db_admins
+(1 row)
+
+postgres=#
+```
+
 
 ### Importing CSV file
 
